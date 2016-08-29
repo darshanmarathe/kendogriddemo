@@ -1,0 +1,65 @@
+﻿
+@using KendoUIMVC5.Repositories;
+@model KendoUIMVC5.Models.Person
+
+@{
+    var list = new DesignationRepositories().GetDesignation();
+    var itemList = list.Select(i => new SelectListItem { Value = i.ID.ToString(), Text = i.Name }).ToList();
+}
+<h3>Customized Person edit template</h3>
+<br />
+
+<script>
+
+    function onDataBound() {
+        var dropdownlist = $("#Designations").data("kendoDropDownList");
+        dropdownlist.value($("#Designation").val());
+    }
+
+
+   function onSelect(e) {
+
+       var dataItem = this.dataItem(e.item);
+       console.log(dataItem);
+       $("#Designation").val(dataItem.ID);
+
+    }
+</script>
+@Html.HiddenFor(model => model.PersonID)
+<div>
+    @(Html.Kendo().DropDownListFor(model => model.Designation)
+        .Name("Designation")
+          .DataTextField("Name")
+          .DataValueField("ID")
+          //.DataSource(source =>
+          //{
+          //    source.Read(read =>
+          //    {
+          //        read.Action("GetDesignation", "Home");
+          //    })
+          //    .ServerFiltering(true);
+          //})
+
+          .BindTo(list)
+         // .Events(e => e.DataBound("onDataBound").Select("onSelect"))
+          .HtmlAttributes(new { style = "width: 100%" })
+    )
+</div>
+
+
+<div>
+    @Html.LabelFor(model => model.Name)
+</div>
+<div>
+    @Html.EditorFor(model => model.Name)
+    @Html.ValidationMessageFor(model => model.Name)
+</div>
+<div>
+    @Html.LabelFor(model => model.BirthDate)
+</div>
+<div>
+    @Html.Kendo().DateTimePickerFor(model => model.BirthDate)
+    @Html.ValidationMessageFor(model => model.BirthDate)
+</div>
+<br />
+
