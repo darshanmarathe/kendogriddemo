@@ -3,22 +3,27 @@
 }
 
 @(Html.Kendo().Grid<KendoUIMVC5.Models.Person>().Name("persons")
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .Model(model => model.Id(m => m.PersonID))
-            .Read(read => read.Action("GetPersons", "Home"))
-            .Update(up => up.Action("UpdatePerson", "Home"))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+
+                .Model(model => {
+                    model.Id(m => m.PersonID);
+                    model.Field(m => m.Designation).DefaultValue(1);
+                })    
+                .Read(read => read.Action("GetPersons", "Home"))
+                .Update(up => up.Action("UpdatePerson", "Home"))
+                .Create(cr => cr.Action("CreatePerson" , "Home"))
     )
 
     .Columns(columns =>
-    {
-        columns.Bound(c => c.PersonID).Width(200);
-        columns.Bound(c => c.Name);
-        columns.Bound(c => c.BirthDate).Format("{0:g}");
-        columns.Bound(c => c.Designation);
-        columns.Command(cmd => cmd.Edit());
-    })
-
+     {
+         columns.Bound(c => c.PersonID).Width(200);
+         columns.Bound(c => c.Name);
+         columns.Bound(c => c.BirthDate).Format("{0:g}");
+         columns.Bound(c => c.Designation);
+         columns.Command(cmd => cmd.Edit());
+     })
+     .ToolBar(toolbar => toolbar.Create())
     .Pageable()
     .Sortable()
     .Editable(ed => ed.Mode(GridEditMode.PopUp).TemplateName("Person"))

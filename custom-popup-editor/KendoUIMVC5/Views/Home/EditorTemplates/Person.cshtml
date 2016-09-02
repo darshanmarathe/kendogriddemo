@@ -31,15 +31,7 @@
         .Name("Designation")
           .DataTextField("Name")
           .DataValueField("ID")
-          //.DataSource(source =>
-          //{
-          //    source.Read(read =>
-          //    {
-          //        read.Action("GetDesignation", "Home");
-          //    })
-          //    .ServerFiltering(true);
-          //})
-
+          
           .BindTo(list)
          // .Events(e => e.DataBound("onDataBound").Select("onSelect"))
           .HtmlAttributes(new { style = "width: 100%" })

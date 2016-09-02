@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-using Kendo.Mvc.Extensions;
 using KendoUIMVC5.Models;
 using KendoUIMVC5.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace KendoUIMVC5.Controllers
 {
@@ -16,8 +15,8 @@ namespace KendoUIMVC5.Controllers
 
         static HomeController()
         {
-            persons.Add(new Person { PersonID = 1, Name = "John", BirthDate = new DateTime(1968, 6, 26), Designation = 2 } );
-            persons.Add(new Person { PersonID = 2, Name = "Sara", BirthDate = new DateTime(1974, 9, 13), Designation = 4 } );
+            persons.Add(new Person { PersonID = 1, Name = "John", BirthDate = new DateTime(1968, 6, 26), Designation = 2 });
+            persons.Add(new Person { PersonID = 2, Name = "Sara", BirthDate = new DateTime(1974, 9, 13), Designation = 4 });
         }
 
         public ActionResult Index()
@@ -41,8 +40,19 @@ namespace KendoUIMVC5.Controllers
                 TryUpdateModel(toUpdate);
             }
 
+            return Json(persons);
+        }
 
-            return Json(ModelState.ToDataSourceResult());
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CreatePerson([DataSourceRequest] DataSourceRequest dsRequest, Person person)
+        {
+            if (person != null && ModelState.IsValid)
+            {
+                person.PersonID = persons.ToList().Count + 1;
+                persons.Add(person);
+            }
+
+            return Json(new[] { person }.ToDataSourceResult(dsRequest, ModelState));
         }
 
         public ActionResult About()
@@ -66,4 +76,3 @@ namespace KendoUIMVC5.Controllers
         }
     }
 }
-    
