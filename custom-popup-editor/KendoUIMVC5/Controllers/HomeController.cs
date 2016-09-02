@@ -40,7 +40,7 @@ namespace KendoUIMVC5.Controllers
                 TryUpdateModel(toUpdate);
             }
 
-            return Json(persons);
+            return Json(new[] { person }.ToDataSourceResult(dsRequest, ModelState));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
