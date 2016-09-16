@@ -26,6 +26,14 @@ namespace KendoUIMVC5.Controllers
             return View();
         }
 
+
+        public ActionResult GetPerson(int id)
+        {
+            var p = persons.Where(x => x.PersonID == id).First();
+
+            return View(p);
+        }
+
         public ActionResult GetPersons([DataSourceRequest] DataSourceRequest dsRequest)
         {
             var result = persons.ToDataSourceResult(dsRequest);

@@ -6,25 +6,56 @@
             .DataSource(dataSource => dataSource
                 .Ajax()
 
-                .Model(model => {
+                .Model(model =>
+                {
                     model.Id(m => m.PersonID);
                     model.Field(m => m.Designation).DefaultValue(1);
-                })    
+                })
                 .Read(read => read.Action("GetPersons", "Home"))
                 .Update(up => up.Action("UpdatePerson", "Home"))
-                .Create(cr => cr.Action("CreatePerson" , "Home"))
+                .Create(cr => cr.Action("CreatePerson", "Home"))
     )
 
     .Columns(columns =>
-     {
-         columns.Bound(c => c.PersonID).Width(200);
-         columns.Bound(c => c.Name);
-         columns.Bound(c => c.BirthDate).Format("{0:g}");
-         columns.Bound(c => c.Designation);
-         columns.Command(cmd => cmd.Edit());
-     })
+    {
+        columns.Bound(c => c.PersonID).Width(200);
+        columns.Bound(c => c.Name);
+        columns.Bound(c => c.BirthDate).Format("{0:g}");
+        columns.Bound(c => c.Designation);
+        // columns.Command(cmd => cmd.Edit());
+        columns.Command(command => { command.Edit(); command.Custom("View").Click("showDetails"); }).Width(172).Width(200).Title("Action");
+
+    })
      .ToolBar(toolbar => toolbar.Create())
     .Pageable()
     .Sortable()
     .Editable(ed => ed.Mode(GridEditMode.PopUp).TemplateName("Person"))
 )
+
+<div id="window">
+
+</div>
+<script type="text/javascript">
+
+
+    function showDetails(e) {   
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        debugger;
+
+        var url = "/Home/GetPerson/" + dataItem.PersonID;
+      
+        var myWindow = $("#window"); 
+  
+            myWindow.kendoWindow({
+                width: "200px",
+                title: "Customer Details",
+                visible: false,
+                modal: true,
+                draggable: true,
+                scrollable:true,
+                content: url,
+            }).data("kendoWindow").center().open();
+    }
+</script>
