@@ -21,10 +21,18 @@
 
        var dataItem = this.dataItem(e.item);
        console.log(dataItem);
-       $("#Designation").val(dataItem.ID);
+       $("#EmployeeId").val(dataItem.Id);
 
     }
+
+   function filterProducts() {
+
+                return {
+                    DesignationId: $("#Designation").val()
+                };
+            }
 </script>
+
 @Html.HiddenFor(model => model.PersonID)
 <div>
     @(Html.Kendo().DropDownListFor(model => model.Designation)
@@ -38,12 +46,35 @@
     )
 </div>
 
+<h4 style="margin-top: 2em;">Employees:</h4>
+@(Html.Kendo().DropDownListFor(model => model.EmployeeId)
+              .Name("Employees")
+              .HtmlAttributes(new { style = "width:100%" })
+              .OptionLabel("Select Employees...")
+              .DataTextField("Name")
+              .DataValueField("Id")
+              .DataSource(source =>
+              {
+                  source.Read(read =>
+                  {
+                      read.Action("GetEmployees", "Home")
+                          .Data("filterProducts");
+                  })
+                  .ServerFiltering(true);
+              })
+              .Events(e => e.Select("onSelect"))
+              .Enable(false)
+              .AutoBind(false)
+              .CascadeFrom("Designation")
+)
+
 
 <div>
     @Html.LabelFor(model => model.Name)
 </div>
 <div>
     @Html.EditorFor(model => model.Name)
+    @Html.EditorFor(model => model.EmployeeId , new { id = "hidEmpId" })
     @Html.ValidationMessageFor(model => model.Name)
 </div>
 <div>

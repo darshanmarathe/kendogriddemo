@@ -22,11 +22,14 @@
         columns.Bound(c => c.Name);
         columns.Bound(c => c.BirthDate).Format("{0:g}");
         columns.Bound(c => c.Designation);
+        columns.Bound(c => c.EmployeeId);
         // columns.Command(cmd => cmd.Edit());
         columns.Command(command => { command.Edit(); command.Custom("View").Click("showDetails"); }).Width(172).Width(200).Title("Action");
 
     })
      .ToolBar(toolbar => toolbar.Create())
+     .ToolBar(toolBar => toolBar.Template("<a class='k-button k-button-icontext' onclick='customCommand()' href='#'></span>Import Excel</a>"))
+
     .Pageable()
     .Sortable()
     .Editable(ed => ed.Mode(GridEditMode.PopUp).TemplateName("Person"))
@@ -36,6 +39,9 @@
 
 </div>
 <script type="text/javascript">
+    function customCommand() {
+        alert("hi");
+    }
 
 
     function showDetails(e) {   

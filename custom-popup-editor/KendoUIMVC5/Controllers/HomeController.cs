@@ -15,8 +15,8 @@ namespace KendoUIMVC5.Controllers
 
         static HomeController()
         {
-            persons.Add(new Person { PersonID = 1, Name = "John", BirthDate = new DateTime(1968, 6, 26), Designation = 2 });
-            persons.Add(new Person { PersonID = 2, Name = "Sara", BirthDate = new DateTime(1974, 9, 13), Designation = 4 });
+            persons.Add(new Person { PersonID = 1, Name = "John", BirthDate = new DateTime(1968, 6, 26), Designation = 2  , EmployeeId =1 });
+            persons.Add(new Person { PersonID = 2, Name = "Sara", BirthDate = new DateTime(1974, 9, 13), Designation = 4  , EmployeeId =0  });
         }
 
         public ActionResult Index()
@@ -81,6 +81,12 @@ namespace KendoUIMVC5.Controllers
         {
             System.Threading.Thread.Sleep(1000);
             return Json(new DesignationRepositories().GetDesignation(), JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult GetEmployees(int? DesignationId)
+        {
+           return Json(new EmployeeRepository().GetEmployees(DesignationId), JsonRequestBehavior.AllowGet);
         }
     }
 }

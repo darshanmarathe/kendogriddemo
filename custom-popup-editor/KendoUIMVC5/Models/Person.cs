@@ -13,5 +13,7 @@ namespace KendoUIMVC5.Models
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
         public int Designation { get; set; } 
+
+        public int EmployeeId { get; set; }
     }
 }
