@@ -21,7 +21,7 @@
 
        var dataItem = this.dataItem(e.item);
        console.log(dataItem);
-       $("#EmployeeId").val(dataItem.Id);
+       $("#EmployeeId").val(dataItem.Id).change();
 
     }
 
@@ -74,7 +74,7 @@
 </div>
 <div>
     @Html.EditorFor(model => model.Name)
-    @Html.EditorFor(model => model.EmployeeId , new { id = "hidEmpId" })
+    @Html.HiddenFor(model => model.EmployeeId)
     @Html.ValidationMessageFor(model => model.Name)
 </div>
 <div>
