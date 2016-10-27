@@ -29,6 +29,7 @@ namespace KendoUIMVC5.Controllers
 
         public ActionResult GetPerson(int id)
         {
+            
             var p = persons.Where(x => x.PersonID == id).First();
 
             return View(p);
@@ -36,6 +37,7 @@ namespace KendoUIMVC5.Controllers
 
         public ActionResult GetPersons([DataSourceRequest] DataSourceRequest dsRequest)
         {
+            System.Threading.Thread.Sleep(15000);
             var result = persons.ToDataSourceResult(dsRequest);
             return Json(result);
         }

@@ -24,7 +24,12 @@
         columns.Bound(c => c.Designation);
         columns.Bound(c => c.EmployeeId);
         // columns.Command(cmd => cmd.Edit());
-        columns.Command(command => { command.Edit(); command.Custom("View").Click("showDetails"); }).Width(172).Width(200).Title("Action");
+        columns.Command(command => {
+            command.Edit();
+            command.Custom("View").Click("showDetails");
+            command.Custom("HUrl").Click("UrlDetails").HtmlAttributes(new { @class = "k-copy-icon" });
+
+        }).Width(172).Width(200).Title("Action");
 
     })
      .ToolBar(toolbar => toolbar.Create())
@@ -43,6 +48,28 @@
         alert("hi");
     }
 
+    function UrlDetails(e) {
+
+    }
+
+    var timeout = 500;
+    function AttachToolTip() {
+        console.log(timeout);
+        setTimeout(function () {
+            if ($(".k-grid-edit").length == 0) {
+                timeout = timeout + 250;
+                if (timeout > 5000)
+                    return;
+                AttachToolTip();
+
+                return;
+            }
+            $(".k-grid-View").attr("title", "Click here to view the darm thing");
+            $(".k-grid-edit").attr("title", "Click here to Edit the darm thing");
+            $(".k-copy-icon").attr("title", "CLICK THIS STUPID BUTTON TO COPY THE THING");
+        }, timeout);
+    };
+    AttachToolTip();
 
     function showDetails(e) {   
         e.preventDefault();
